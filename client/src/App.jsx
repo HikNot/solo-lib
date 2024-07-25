@@ -1,13 +1,29 @@
 import React, { useEffect, useState } from 'react';
 import Layout from './components/Layout';
 import MainPage from './components/pages/MainPage';
-import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Navigate, RouterProvider, useNavigate } from 'react-router-dom';
 import SignUpPage from './components/pages/SignUpPage';
 import axiosInstance, { setAccessToken } from './axiosInstance';
 import SignInPage from './components/pages/SignInPage';
+import ProtectedRoute from './components/hoc/ProtectedRoute';
+import WelcomePage from './components/pages/WelcomePage';
 
 function App() {
   const [user, setUser] = useState();
+
+  useEffect(() => {
+    axiosInstance
+      .get('/tokens/refresh')
+      .then((res) => {
+        const { user, accessToken } = res.data;
+        setUser(user);
+        setAccessToken(accessToken);
+      })
+      .catch(() => {
+        setUser(null);
+        setAccessToken('');
+      });
+  }, []);
 
   const handleSignUp = async (e) => {
     e.preventDefault();
@@ -29,6 +45,7 @@ function App() {
       setUser(res.data.user);
       setAccessToken(res.data.accessToken);
     }
+    window.location.href = '/home';
   };
 
   const handleLogout = async () => {
@@ -58,16 +75,29 @@ function App() {
       element: <Layout user={user} handleLogout={handleLogout} />,
       children: [
         {
-          path: '/',
-          element: <MainPage />,
+          path: '/home',
+          element: (
+            <ProtectedRoute isAllowed={!!user} redirectPath="/home">
+              <MainPage user={user}></MainPage>
+            </ProtectedRoute>
+          ),
         },
         {
-          path: '/signup',
-          element: <SignUpPage handleSignUp={handleSignUp} />,
-        },
-        {
-          path: '/signin',
-          element: <SignInPage handleSignIn={handleSignIn} />,
+          element: <ProtectedRoute isAllowed={!user} />,
+          children: [
+            {
+              path: '/',
+              element: <WelcomePage />,
+            },
+            {
+              path: '/signup',
+              element: <SignUpPage handleSignUp={handleSignUp} />,
+            },
+            {
+              path: '/signin',
+              element: <SignInPage handleSignIn={handleSignIn} />,
+            },
+          ],
         },
       ],
     },

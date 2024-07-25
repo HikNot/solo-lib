@@ -5,10 +5,15 @@ import Container from 'react-bootstrap/Container';
 
 export default function SignInPage({handleSignIn}) {
   return (
-    <Container>
+    <Container style={{
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      height: '100svh',
+    }}>
       <Form onSubmit={handleSignIn}>
         <Form.Group className="block mar-b-1" controlId="formBasicEmail">
-          <Form.Label>E-mail</Form.Label>
+          <Form.Label><h1>E-mail</h1></Form.Label>
           <Form.Control
             name="email"
             className="mb-3"
@@ -18,7 +23,7 @@ export default function SignInPage({handleSignIn}) {
         </Form.Group>
 
         <Form.Group className="block mar-b-1" controlId="formBasicPassword">
-          <Form.Label>Пароль</Form.Label>
+          <Form.Label><h1>Пароль</h1></Form.Label>
           <Form.Control
             name="password"
             className="mb-3"
