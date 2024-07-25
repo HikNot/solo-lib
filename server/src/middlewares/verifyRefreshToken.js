@@ -6,12 +6,25 @@ function verifyRefreshToken(req, res, next) {
     const { refreshToken } = req.cookies;
     const { user } = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
     res.locals.user = user;
-    next();
+    return next();
   } catch (error) {
     console.log(error);
     console.log('Invalid refresh token');
-    res.sendStatus(401);
+    return res.sendStatus(401);
   }
 }
 
-module.exports = verifyRefreshToken;
+const verifyAccessToken = (req, res, next) => {
+  try {
+    const accessToken = req.headers.authorization.split(' ')[1]; // Bearer <token>
+    const { user } = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
+    res.locals.user = user;
+
+    return next();
+  } catch (error) {
+    console.log('Invalid access token');
+    return res.sendStatus(403);
+  }
+};
+
+module.exports = {verifyRefreshToken, verifyAccessToken};

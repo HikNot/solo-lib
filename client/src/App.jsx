@@ -13,7 +13,6 @@ function App() {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
-    console.log(data);
     const res = await axiosInstance.post('/auth/signup', data);
     if (res.status === 200) {
       setUser(res.data.user);
@@ -25,7 +24,7 @@ function App() {
     e.preventDefault();
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
-    const res = await axiosInstance.post('/auth/login', data);
+    const res = await axiosInstance.post('/auth/signin', data);
     if (res.status === 200) {
       setUser(res.data.user);
       setAccessToken(res.data.accessToken);

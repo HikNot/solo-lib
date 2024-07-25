@@ -7,7 +7,9 @@ export default function NavBar({ user, handleLogout }) {
   return (
     <Navbar className="bg-body-tertiary">
       <Container>
-        <Navbar.Brand href="#home">Solo library</Navbar.Brand>
+        <NavLink style={{textDecoration: 'none'}} to={'/'}>
+        <Navbar.Brand>Solo library</Navbar.Brand>
+        </NavLink>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           {user ? (

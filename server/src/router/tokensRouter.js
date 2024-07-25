@@ -1,5 +1,5 @@
 const express = require('express');
-const verifyRefreshToken = require('../middlewares/verifyRefreshToken');
+const { verifyRefreshToken } = require('../middlewares/verifyRefreshToken');
 const generateTokens = require('../utils/generateTokens');
 const cookieConfig = require('../configs/cookieConfig');
 
