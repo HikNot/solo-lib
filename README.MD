@@ -30,3 +30,9 @@ authorized user can see his posts on account page
 
 --
 
+realese 5
+
+added delete function
+
+--
+
