@@ -5,7 +5,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-export default function MainPage() {
+export default function MainPage({user}) {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
@@ -15,9 +15,9 @@ export default function MainPage() {
   return (
     <>
       <Container>
-        <Row className='mt-4'>
+        <Row className='mt-1'>
           {posts.map((post) => (
-            <Col key={post.id}>
+            <Col className='mt-3' key={post.id}>
               <PostCard post={post} />
             </Col>
           ))}

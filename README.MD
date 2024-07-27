@@ -21,3 +21,12 @@ realese 3
 added style and welcome page
 
 --
+
+realese 4
+
+added account page
+added functionality to add posts
+authorized user can see his posts on account page
+
+--
+

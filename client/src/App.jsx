@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import Layout from './components/Layout';
 import MainPage from './components/pages/MainPage';
-import { createBrowserRouter, Navigate, RouterProvider, useNavigate } from 'react-router-dom';
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+  useNavigate,
+} from 'react-router-dom';
 import SignUpPage from './components/pages/SignUpPage';
 import axiosInstance, { setAccessToken } from './axiosInstance';
 import SignInPage from './components/pages/SignInPage';
 import ProtectedRoute from './components/hoc/ProtectedRoute';
 import WelcomePage from './components/pages/WelcomePage';
+import AccountPage from './components/pages/AccountPage';
 
 function App() {
   const [user, setUser] = useState();
@@ -83,7 +89,15 @@ function App() {
           ),
         },
         {
-          element: <ProtectedRoute isAllowed={!user} />,
+          path: '/my-cards',
+          element: (
+            <ProtectedRoute isAllowed={!!user} redirectPath="/my-cards">
+              <AccountPage user={user} />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          element: <ProtectedRoute isAllowed={!user} redirectPath='/' />,
           children: [
             {
               path: '/',
