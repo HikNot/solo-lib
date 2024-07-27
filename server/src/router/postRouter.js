@@ -2,8 +2,6 @@ const express = require('express');
 const { User, Post } = require('../../db/models');
 const postRouter = express.Router();
 const { verifyAccessToken } = require('../middlewares/verifyRefreshToken');
-const { Model } = require('sequelize');
-const { user } = require('pg/lib/defaults');
 
 postRouter.route('/').get(async (req, res) => {
   try {
@@ -47,7 +45,16 @@ postRouter
           attributes: ['id', 'name', 'email'],
         },
       });
-      res.status(200).json(plainPost);
+      res.json(plainPost);
+    } catch (err) {
+      console.log(err);
+    }
+  })
+  .delete(verifyAccessToken, async (req, res) => {
+    const { id } = req.params;
+    try {
+      const post = await Post.destroy({ where: { id   } });
+      res.status(200).json(post);
     } catch (err) {
       console.log(err);
       res.status(500).json({ error: 'Internal Server Error' });

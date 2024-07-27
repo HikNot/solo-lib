@@ -1,8 +1,10 @@
 import React from 'react';
 import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
+import Button from 'react-bootstrap/Button';
 
-export default function PostCard({ post, }) {
+export default function PostCard({ post, deletePostHandler }) {
+  
   return (
     <Card style={{ width: '18rem' }}>
       <Card.Img
@@ -17,8 +19,7 @@ export default function PostCard({ post, }) {
         <ListGroup.Item>Автор: </ListGroup.Item>
       </ListGroup>
       <Card.Body>
-        <Card.Link href="#">Card Link</Card.Link>
-        <Card.Link href="#">Another Link</Card.Link>
+      <Button onClick={() => deletePostHandler(post.id)} variant="danger">Удалить</Button>{' '}
       </Card.Body>
     </Card>
   );

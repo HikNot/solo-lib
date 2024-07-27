@@ -62,19 +62,6 @@ function App() {
     }
   };
 
-  useEffect(() => {
-    axiosInstance
-      .get('/tokens/refresh')
-      .then((res) => {
-        const { user, accessToken } = res.data;
-        setUser(user);
-        setAccessToken(accessToken);
-      })
-      .catch(() => {
-        setUser(null);
-        setAccessToken('');
-      });
-  }, []);
 
   const router = createBrowserRouter([
     {

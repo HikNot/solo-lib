@@ -18,7 +18,7 @@ export default function MainPage({user}) {
         <Row className='mt-1'>
           {posts.map((post) => (
             <Col className='mt-3' key={post.id}>
-              <PostCard post={post} />
+              <PostCard user={user} post={post} />
             </Col>
           ))}
         </Row>

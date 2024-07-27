@@ -25,6 +25,16 @@ export default function AccountPage({ user }) {
       window.location.reload();
     }
   };
+
+  const deletePostHandler = async (id) => {
+    const res = await axiosInstance.delete(`posts/${id}`);
+    if (res.status === 200) {
+      alert('Пост успешно удален');
+      setAddPost((prev) => prev.filter((el) => el.id !== id));
+      window.location.reload();
+    }
+  };
+
   return (
     <Container>
       <Row xs={2} md={4} lg={6}>
@@ -47,7 +57,7 @@ export default function AccountPage({ user }) {
       <Row xs={1} md={2}>
         {post.map((el) => (
           <Col key={el.id}>
-            <PostCard user={user} post={el} />
+            <PostCard deletePostHandler={deletePostHandler} user={user} post={el} />
           </Col>
         ))}
       </Row>
