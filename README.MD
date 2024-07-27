@@ -36,3 +36,9 @@ added delete function
 
 --
 
+release 6
+
+adde edti handler and functionality of edit post by its id
+
+--
+
