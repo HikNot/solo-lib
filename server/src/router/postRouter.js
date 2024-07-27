@@ -59,6 +59,23 @@ postRouter
       console.log(err);
       res.status(500).json({ error: 'Internal Server Error' });
     }
+  }).patch(verifyAccessToken, async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const updateData = {};
+      for (const key in req.body) {
+        if (req.body[key]) {
+          updateData[key] = req.body[key];
+        }
+      }
+
+      await Post.update(updateData, { where: { id } });
+      const updatedPost = await Post.findByPk(id);
+      res.json(updatedPost);
+    } catch (error) {
+      res.status(500).json({ message: 'Server error' });
+    }
   });
 
 module.exports = postRouter;

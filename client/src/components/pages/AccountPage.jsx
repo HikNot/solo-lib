@@ -8,10 +8,12 @@ import Form from 'react-bootstrap/Form';
 import axiosInstance from '../../axiosInstance';
 import Button from 'react-bootstrap/Button';
 import PostCard from '../ui/PostCard';
+import EditModal from '../ui/Modal';
 
 export default function AccountPage({ user }) {
   const [post, setPost] = useState([]);
   const [addPost, setAddPost] = useState([]);
+  const [modalContent, setModalContent] = useState(null);
 
   useEffect(() => {
     axiosInstance.get(`/posts/${user.id}`).then((res) => setPost(res.data));
@@ -35,6 +37,14 @@ export default function AccountPage({ user }) {
     }
   };
 
+  const editHandler = async (e) => {
+    e.preventDefault()
+    const formData = Object.fromEntries(new FormData(e.target));
+    const res = await axiosInstance.patch(`/posts/${modalContent.id}`, formData)
+    setPost((prev) => prev.map((el) => el.id === modalContent.id ? res.data : el))
+    setModalContent(null)
+  }
+
   return (
     <Container>
       <Row xs={2} md={4} lg={6}>
@@ -54,10 +64,15 @@ export default function AccountPage({ user }) {
           <h3>{user.email}</h3>
         </Col>
       </Row>
-      <Row xs={1} md={2} className='mt-1'>
+      <Row xs={1} md={2} className="mt-1">
         {post.map((el) => (
-          <Col key={el.id} className='mt-3'>
-            <PostCard deletePostHandler={deletePostHandler} user={user} post={el} />
+          <Col key={el.id} className="mt-3">
+            <PostCard
+              setModalContent={setModalContent}
+              deletePostHandler={deletePostHandler}
+              user={user}
+              post={el}
+            />
           </Col>
         ))}
       </Row>
@@ -95,6 +110,11 @@ export default function AccountPage({ user }) {
           </Form>
         </Col>
       </Row>
+      <EditModal
+        modalContent={modalContent}
+        setModalContent={setModalContent}
+        editHandler={editHandler}
+      />
     </Container>
   );
 }

@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 
-export default function PostCard({ post, deletePostHandler }) {
+export default function PostCard({ post, deletePostHandler, setModalContent }) {
   
   return (
     <Card style={{ width: '18rem' }}>
@@ -20,6 +20,8 @@ export default function PostCard({ post, deletePostHandler }) {
       </ListGroup>
       <Card.Body>
       <Button onClick={() => deletePostHandler(post.id)} variant="danger">Удалить</Button>{' '}
+      <Button onClick={() => setModalContent(post)} variant="warning">Редактировать</Button>{' '}
+
       </Card.Body>
     </Card>
   );
