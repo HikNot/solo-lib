@@ -54,9 +54,9 @@ export default function AccountPage({ user }) {
           <h3>{user.email}</h3>
         </Col>
       </Row>
-      <Row xs={1} md={2}>
+      <Row xs={1} md={2} className='mt-1'>
         {post.map((el) => (
-          <Col key={el.id}>
+          <Col key={el.id} className='mt-3'>
             <PostCard deletePostHandler={deletePostHandler} user={user} post={el} />
           </Col>
         ))}
@@ -89,7 +89,7 @@ export default function AccountPage({ user }) {
                 placeholder="Введите текст поста"
               />
             </FloatingLabel>
-            <Button type="submit" className="mt-3" variant="outline-info">
+            <Button type="submit" className="mt-3 mb-3" variant="outline-info">
               Добавить
             </Button>{' '}
           </Form>
