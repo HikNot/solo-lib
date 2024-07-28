@@ -17,7 +17,7 @@ export default function MainPage({user}) {
       <Container>
         <Row className='mt-1'>
           {posts.map((post) => (
-            <Col className='mt-3' key={post.id}>
+            <Col className='mt-3 mb-3' key={post.id}>
               <PostCard user={user} post={post} />
             </Col>
           ))}
