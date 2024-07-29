@@ -1,12 +1,12 @@
 const express = require('express');
-const { User, Post } = require('../../db/models');
+const { User, Post, Like } = require('../../db/models');
 const postRouter = express.Router();
 const { verifyAccessToken } = require('../middlewares/verifyRefreshToken');
 
 postRouter.route('/').get(async (req, res) => {
   try {
     const posts = await Post.findAll({
-      include: User,
+      include: [User, Like],
     });
     res.status(200).json(posts);
   } catch (error) {
@@ -20,7 +20,7 @@ postRouter
   .get(async (req, res) => {
     const { id } = req.params;
     try {
-      const post = await Post.findAll({ where: { userId: id } , include: User });
+      const post = await Post.findAll({ where: { userId: id }, include: User });
       res.status(200).json(post);
     } catch (err) {
       console.log(err);
@@ -80,5 +80,26 @@ postRouter
       res.status(500).json({ message: 'Server error' });
     }
   });
+
+postRouter.get('/one-post/:id', async (req, res) => {
+  const { id } = req.params;
+  if (Number.isNaN(Number(id))) {
+    return res.status(400).json({ error: 'Missing required parameters' });
+  }
+
+  if (!id) {
+    return res.status(400).json({ error: 'Missing required parameters' });
+  }
+
+  try {
+    const userPost = await Post.findOne({where: {
+      id
+    }, include: [User, Like]});
+    res.status(200).json(userPost);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
 
 module.exports = postRouter;

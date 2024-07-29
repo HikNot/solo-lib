@@ -38,12 +38,17 @@ export default function AccountPage({ user }) {
   };
 
   const editHandler = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
     const formData = Object.fromEntries(new FormData(e.target));
-    const res = await axiosInstance.patch(`/posts/${modalContent.id}`, formData)
-    setPost((prev) => prev.map((el) => el.id === modalContent.id ? res.data : el))
-    setModalContent(null)
-  }
+    const res = await axiosInstance.patch(
+      `/posts/${modalContent.id}`,
+      formData,
+    );
+    setPost((prev) =>
+      prev.map((el) => (el.id === modalContent.id ? res.data : el)),
+    );
+    setModalContent(null);
+  };
 
   return (
     <Container>
@@ -59,7 +64,7 @@ export default function AccountPage({ user }) {
             <Figure.Caption>Пока в разработке</Figure.Caption>
           </Figure>
         </Col>
-        <Col>
+        <Col className='mt-4'>
           <h1>{user.name}</h1>
           <h3>{user.email}</h3>
         </Col>

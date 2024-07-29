@@ -13,22 +13,25 @@ import SignInPage from './components/pages/SignInPage';
 import ProtectedRoute from './components/hoc/ProtectedRoute';
 import WelcomePage from './components/pages/WelcomePage';
 import AccountPage from './components/pages/AccountPage';
+import PostPage from './components/pages/PostPage';
 
 function App() {
   const [user, setUser] = useState();
 
   useEffect(() => {
-    axiosInstance
-      .get('/tokens/refresh')
-      .then((res) => {
-        const { user, accessToken } = res.data;
-        setUser(user);
-        setAccessToken(accessToken);
-      })
-      .catch(() => {
-        setUser(null);
-        setAccessToken('');
-      });
+    const time = setTimeout(() => axiosInstance
+    .get('/tokens/refresh')
+    .then((res) => {
+      const { user, accessToken } = res.data;
+      setUser(user);
+      setAccessToken(accessToken);
+    })
+    .catch(() => {
+      setUser(null);
+      setAccessToken('');
+    }), 1000)
+    
+    return () => clearTimeout(time)
   }, []);
 
   const handleSignUp = async (e) => {
@@ -83,6 +86,14 @@ function App() {
           element: (
             <ProtectedRoute isAllowed={!!user} redirectPath="/welcome">
               <AccountPage user={user} />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: '/:id',
+          element: (
+            <ProtectedRoute isAllowed={!!user} redirectPath="/welcome">
+              <PostPage />
             </ProtectedRoute>
           ),
         },
