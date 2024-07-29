@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card';
 import ListGroup from 'react-bootstrap/ListGroup';
 import Button from 'react-bootstrap/Button';
 
-export default function PostCard({ post, deletePostHandler, setModalContent }) {
+export default function PostCard({ post, deletePostHandler, setModalContent, user}) {
   
   return (
     <Card style={{ width: '18rem' }}>
@@ -16,7 +16,7 @@ export default function PostCard({ post, deletePostHandler, setModalContent }) {
         <Card.Text>{post.body}</Card.Text>
       </Card.Body>
       <ListGroup className="list-group-flush">
-        <ListGroup.Item>Автор: </ListGroup.Item>
+        <ListGroup.Item>Автор: {post.User?.name}</ListGroup.Item>
       </ListGroup>
       <Card.Body>
       <Button onClick={() => deletePostHandler(post.id)} variant="danger">Удалить</Button>{' '}

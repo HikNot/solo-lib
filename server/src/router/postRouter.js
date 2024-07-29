@@ -5,7 +5,9 @@ const { verifyAccessToken } = require('../middlewares/verifyRefreshToken');
 
 postRouter.route('/').get(async (req, res) => {
   try {
-    const posts = await Post.findAll();
+    const posts = await Post.findAll({
+      include: User,
+    });
     res.status(200).json(posts);
   } catch (error) {
     console.log(error);
@@ -53,13 +55,14 @@ postRouter
   .delete(verifyAccessToken, async (req, res) => {
     const { id } = req.params;
     try {
-      const post = await Post.destroy({ where: { id   } });
+      const post = await Post.destroy({ where: { id } });
       res.status(200).json(post);
     } catch (err) {
       console.log(err);
       res.status(500).json({ error: 'Internal Server Error' });
     }
-  }).patch(verifyAccessToken, async (req, res) => {
+  })
+  .patch(verifyAccessToken, async (req, res) => {
     try {
       const { id } = req.params;
 
