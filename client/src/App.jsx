@@ -62,15 +62,18 @@ function App() {
     }
   };
 
-
   const router = createBrowserRouter([
     {
       element: <Layout user={user} handleLogout={handleLogout} />,
       children: [
         {
+          path: '/',
+          element: <Navigate to="/home" replace />,
+        },
+        {
           path: '/home',
           element: (
-            <ProtectedRoute isAllowed={!!user} redirectPath="/home">
+            <ProtectedRoute isAllowed={!!user} redirectPath="/welcome">
               <MainPage user={user}></MainPage>
             </ProtectedRoute>
           ),
@@ -78,16 +81,16 @@ function App() {
         {
           path: '/my-cards',
           element: (
-            <ProtectedRoute isAllowed={!!user} redirectPath="/my-cards">
+            <ProtectedRoute isAllowed={!!user} redirectPath="/welcome">
               <AccountPage user={user} />
             </ProtectedRoute>
           ),
         },
         {
-          element: <ProtectedRoute isAllowed={!user} redirectPath='/' />,
+          element: <ProtectedRoute isAllowed={!user} redirectPath="/" />,
           children: [
             {
-              path: '/',
+              path: '/welcome',
               element: <WelcomePage />,
             },
             {

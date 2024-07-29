@@ -20,7 +20,7 @@ postRouter
   .get(async (req, res) => {
     const { id } = req.params;
     try {
-      const post = await Post.findAll({ where: { userId: id } });
+      const post = await Post.findAll({ where: { userId: id } , include: User });
       res.status(200).json(post);
     } catch (err) {
       console.log(err);
