@@ -14,24 +14,29 @@ import ProtectedRoute from './components/hoc/ProtectedRoute';
 import WelcomePage from './components/pages/WelcomePage';
 import AccountPage from './components/pages/AccountPage';
 import PostPage from './components/pages/PostPage';
+import ChatPage from './components/pages/ChatPage';
 
 function App() {
   const [user, setUser] = useState();
 
   useEffect(() => {
-    const time = setTimeout(() => axiosInstance
-    .get('/tokens/refresh')
-    .then((res) => {
-      const { user, accessToken } = res.data;
-      setUser(user);
-      setAccessToken(accessToken);
-    })
-    .catch(() => {
-      setUser(null);
-      setAccessToken('');
-    }), 1000)
-    
-    return () => clearTimeout(time)
+    const time = setTimeout(
+      () =>
+        axiosInstance
+          .get('/tokens/refresh')
+          .then((res) => {
+            const { user, accessToken } = res.data;
+            setUser(user);
+            setAccessToken(accessToken);
+          })
+          .catch(() => {
+            setUser(null);
+            setAccessToken('');
+          }),
+      1000,
+    );
+
+    return () => clearTimeout(time);
   }, []);
 
   const handleSignUp = async (e) => {
@@ -86,6 +91,14 @@ function App() {
           element: (
             <ProtectedRoute isAllowed={!!user} redirectPath="/welcome">
               <AccountPage user={user} />
+            </ProtectedRoute>
+          ),
+        },
+        {
+          path: '/chat',
+          element: (
+            <ProtectedRoute isAllowed={!!user} redirectPath="/welcome">
+              <ChatPage user={user}/>
             </ProtectedRoute>
           ),
         },

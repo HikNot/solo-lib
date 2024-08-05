@@ -21,6 +21,9 @@ export default function NavBar({ user, handleLogout }) {
                 <NavLink to="/my-cards">My cards</NavLink>
               </Navbar.Text>
               <Navbar.Text className="me-3">
+                <NavLink to="/chat">Chat</NavLink>
+              </Navbar.Text>
+              <Navbar.Text className="me-3">
                 <NavLink to="/" onClick={handleLogout}>
                   Logout
                 </NavLink>

@@ -67,13 +67,20 @@ export default function PostPage() {
           </Form>
         </Col>
       </Row>
-      <Row style={{width: "60%"}}>
+      {/* <Row style={{width: "60%"}}>
         {comments.map((comment) => (
           <Col key={comment.id}>
             <CommentsCard comment={comment} />
           </Col>
         ))}
-      </Row>
+      </Row> */}
+      <div>
+        {comments.map((comment) => (
+          <Col className='mt-3' style={{width: "60%"}} key={comment.id}>
+            <CommentsCard comment={comment} />
+          </Col>
+        ))}
+      </div>
     </Container>
   );
 }

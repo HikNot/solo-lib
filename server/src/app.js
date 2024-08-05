@@ -1,5 +1,6 @@
 const express = require('express');
 const morgan = require('morgan');
+const {createServer} = require('http');
 const cookieParser = require('cookie-parser');
 const userRouter = require('./router/userRouter');
 const postRouter = require('./router/postRouter');
@@ -7,6 +8,9 @@ const authRouter = require('./router/authRouter');
 const tokenRouter = require('./router/tokensRouter');
 const likeRouter = require('./router/likeRouter');
 const commentRouter = require('./router/commentRouter');
+const upgradeCb = require('./ws/upgrade');
+const wsServer = require('./ws/wsServer');
+const connection = require('./ws/connection');
 
 const app = express();
 
@@ -22,4 +26,9 @@ app.use('/api/tokens', tokenRouter);
 app.use('/api/likes', likeRouter);
 app.use('/api/comments', commentRouter)
 
-module.exports = app;
+const server = createServer(app);
+
+server.on('upgrade', upgradeCb)
+wsServer.on('connection', connection)
+
+module.exports = server;
