@@ -6,12 +6,14 @@ import Form from 'react-bootstrap/Form';
 import { IoSend } from 'react-icons/io5';
 import ChatInput from './ChatInput';
 
-export default function ChatComponent({user, messages, sendNewMessage }) {
+export default function ChatComponent({ user, messages, sendNewMessage }) {
   return (
     <>
       <Row>
         <Col xs={12}>
-          <ChatMessage user={user} messages={messages} />
+          {messages.map((message) => (
+            <ChatMessage user={user} message={message} key={message.id} />
+          ))}
         </Col>
         <Col>
           <ChatInput sendNewMessage={sendNewMessage} />
@@ -19,4 +21,8 @@ export default function ChatComponent({user, messages, sendNewMessage }) {
       </Row>
     </>
   );
+}
+
+{
+  /*Map all messages.map(message -> ) */
 }
